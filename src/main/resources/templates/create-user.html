@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create New User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+        <a th:href="@{/home}" class="navbar-brand">Collab</a>
+    </div>
+</nav>
+<div>
+    <h1 class="mt-5 ms-2">Create new User</h1>
+
+    <form class="mt-5 ms-3 me-3" th:action="@{/users/create}" th:method="POST" th:object="${user}">
+
+
+        <div class="mb-3">
+            <label for="exampleInputFirstName1" class="form-label">First name</label>
+            <input type="text" th:field="*{firstName}" class="form-control" id="exampleInputFirstName1"
+                   aria-describedby="first-name-error">
+            <div id="first-name-error" class="form-text" style="color:red" th:if="${#fields.hasErrors('firstName')}"
+                 th:errors="*{firstName}">Error first name
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputLastName1" class="form-label">Last name</label>
+            <input type="text" th:field="*{lastName}" class="form-control" id="exampleInputLastName1"
+                   aria-describedby="last-name-error">
+            <div id="last-name-error" class="form-text" style="color:red" th:if="${#fields.hasErrors('lastName')}"
+                 th:errors="*{lastName}">Error last name
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" th:field="*{email}" class="form-control" id="exampleInputEmail1"
+                   aria-describedby="emailHelp">
+            <div id="email-error" class="form-text" style="color:red" th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}">Error email
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" th:field="*{password}" class="form-control" id="exampleInputPassword1"
+                   aria-describedby="password-error">
+            <div id="password-error" class="form-text" style="color:red" th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}">Password error
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="reset" class="btn btn-light">Clean</button>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>

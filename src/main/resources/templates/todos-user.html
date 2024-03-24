@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All ToDo lists of User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+        <a th:href="@{/home}" class="navbar-brand">Collab</a>
+    </div>
+</nav>
+<div class=".container">
+
+    <h1 class="mt-5 ms-2" th:text="'All ToDo Lists of '+${owner.getFirstName()}+' '+${owner.getLastName()}">All ToDo
+        Lists of </h1>
+    <div class="mt-2 me-3 float-end">
+        <a th:href="@{/todos/create/users/{owner_id}(owner_id=${owner.getId()})}" class="btn btn-primary btn-lg">Create
+            new ToDo List</a>
+    </div>
+
+    <table class="table table-striped mt-5">
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Owner</th>
+            <th scope="col">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo,rowStat : ${todos}">
+            <th scope="row" th:text="${rowStat.count}">No.</th>
+            <td th:text="${todo.getId()}">Id</td>
+            <td>
+                <a th:href="@{|/todos/${todo.id}/tasks|}" th:text="${todo.getTitle()}">Title</a>
+            </td>
+            <td th:text="${todo.getCreatedAt().format(format)}">Created At</td>
+            <td th:text="${todo.getOwner().getFirstName()+' '+todo.getOwner().getLastName()}">Owner</td>
+            <td colspan="4">
+                <a th:href="@{|/todos/${todo.id}/update/users/${owner.id}|}">Edit</a>
+                <a th:href="@{/todos/{todo_id}/delete/users/{owner_id}(todo_id=${todo.getId()},owner_id=${todo.getOwner().getId()})}">Remove</a>
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>

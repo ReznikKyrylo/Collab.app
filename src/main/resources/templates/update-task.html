@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+        <a th:href="@{/home}" class="navbar-brand">Collab</a>
+    </div>
+</nav>
+<div class="container-fluid">
+    <h1 class="mt-5 ms-2">Update Existing Task</h1>
+
+    <form class="mt-5 ms-3 me-3"
+          th:action="@{|/tasks/${task.id}/update/todos/${todo_id}|}"
+          th:method="POST"
+          th:object="${task}">
+
+
+        <div class="mb-3">
+            <label for="exampleInputId1" class="form-label">ID</label>
+            <input type="text" th:field="*{id}" class="form-control" id="exampleInputId1" disabled>
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Name</label>
+            <input type="text" th:field="*{name}" class="form-control" id="exampleInputName"
+                   aria-describedby="last-name-error">
+            <div id="last-name-error" class="form-text" style="color:red" th:if="${#fields.hasErrors('name')}"
+                 th:errors="*{name}">Error name
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="Priority" class="form-label">Priority</label>
+            <select th:field="*{priority}" class="form-select form-select-lg mb-3" id="Priority"
+                    aria-label=".form-select-lg example">
+                <option th:each="priority : ${priorities}"
+                        th:value="${priority.name()}"
+                        th:text="${priority.name()}"
+                        th:selected="${priority.name().equals(task.priority)}">Priority
+                </option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="state" class="form-label">Status</label>
+            <select name="stateId" class="form-select form-select-lg mb-3" id="state"
+                    aria-label=".form-select-lg example">
+                <option th:each="state : ${states}"
+                        th:value="${state.id}"
+                        th:text="${state.name}"
+                        th:selected="${state.getId()==task.getId()}">Priority
+                </option>
+            </select>
+        </div>
+
+        <input type="hidden" name="id" th:value="*{id}">
+        <input type="hidden" name="todoId" th:value="${task.todoId}">
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="reset" class="btn btn-light">Clean</button>
+        <button type="button" class="btn btn-success">
+            <a style="color:white;text-decoration-line:none" th:href="@{|/todos/${task.todoId}/tasks|}">Go to Task
+                List</a>
+        </button>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>

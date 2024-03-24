@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Tasks of ToDo List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar bg-body-tertiary border-bottom">
+    <div class="container-fluid">
+        <a th:href="@{/home}" class="navbar-brand">Collab</a>
+    </div>
+</nav>
+<div class="container-fluid">
+
+    <h1 class="mt-5 ms-2" th:text="'All Task From '+${toDo.title}">All Task From </h1>
+    <div class="mt-2 me-3 float-end">
+        <a th:href="@{|/tasks/create/todos/${toDo.id}|}" class="btn btn-primary btn-lg">Create Task</a>
+    </div>
+
+    <table class="table table-striped mt-5">
+        <thead>
+        <tr>
+            <th scope="col">No.</th>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Priority</th>
+            <th scope="col">State</th>
+            <th scope="col">Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="task,rowStat : ${toDo.getTasks()}">
+            <th scope="row" th:text="${rowStat.count}">No.</th>
+            <td th:text="${task.getId()}">Id</td>
+            <td th:text="${task.getName()}">Name</td>
+            <td th:text="${task.priority.name().substring(0,1)+task.priority.name().substring(1).toLowerCase()}">
+                Priority
+            </td>
+            <td th:text="${task.getState().getName()}">State</td>
+            <td colspan="2">
+                <a th:href="@{|/tasks/${task.id}/update/todos/${toDo.id}|}">Edit</a>
+                <a th:href="@{|/tasks/${task.id}/delete/todos/${toDo.id}|}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form class="mt-5 ms-3 me-3" th:action="@{|/todos/${toDo.id}/add|}" th:method="GET">
+        <div class="mb-3">
+            <label for="Collaborators" class="form-label">Collaborators:</label>
+            <select class="form-select form-select-lg mb-3" name="user_id" id="Collaborators"
+                    aria-label=".form-select-lg example">
+                <option th:value="999999999">Select collaborator...</option>
+                <option th:each="user : ${collaborators}"
+                        th:value="${user.getId()}"
+                        th:text="${user.getFirstName()+' '+user.getLastName()}">Select collaborator...
+                </option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-light">Add</button>
+    </form>
+
+    <table class="table">
+        <tbody>
+        <tr th:each="collaborant,rowStat : ${toDo.getCollaborators()}">
+            <th scope="row" th:text="${rowStat.count}">No.</th>
+            <td th:text="${collaborant.getFirstName()+' '+collaborant.getLastName()}">Name</td>
+            <td>
+                <a th:href="@{/todos/{id}/remove(id = ${toDo.id}, user_id = ${collaborant.id})}">Remove</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-success">
+        <a style="color:white;text-decoration-line:none" th:href="@{|/todos/all/users/${toDo.getOwner().getId()}|}">Go
+            to ToDo List</a>
+    </button>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+</body>
+</html>

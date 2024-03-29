@@ -107,7 +107,6 @@ public class UserControllerTest {
     public void user_all_get() throws Exception {
 
         List<User> all = userService.getAll();
-        System.out.println(all);
 
         mockMvc.perform(get("/users/all"))
                 .andExpect(status().isOk())

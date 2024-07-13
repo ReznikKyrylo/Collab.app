@@ -1,1 +1,1 @@
-Collab.app
+MVC project for collaboration between workers.
